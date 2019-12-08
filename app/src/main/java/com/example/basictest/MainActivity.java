@@ -3,7 +3,10 @@ package com.example.basictest;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -91,7 +94,33 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(new Intent(this, MainActivity2.class), 2);
     }
 
-    public void startCamera(View view){
+    //添加数据
 
+    public void startCamera(View view){
+        Uri boyUri = Uri.parse("content://com.example.basictest.StubProvider/boy");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", "张三");
+        getContentResolver().insert(boyUri, contentValues);
+//        Cursor boyCursor = getContentResolver().query(boyUri, new String[]{"_id", "name"}, null, null, null);
+//        if (boyCursor != null) {
+//            while (boyCursor.moveToNext()) {
+//                Log.e("yunchong", "ID:" + boyCursor.getInt(boyCursor.getColumnIndex("_id")) + "  name:" + boyCursor.getString(boyCursor.getColumnIndex("name")));
+//            }
+//            boyCursor.close();
+//        }
+
+        Uri girlUri = Uri.parse("content://com.example.basictest.StubProvider/girl");
+        contentValues.clear();
+        contentValues.put("name", "李四");
+        getContentResolver().insert(girlUri, contentValues);
+//        Cursor girlCursor = getContentResolver().query(girlUri, new String[]{"_id", "name"}, null, null, null);
+//        if (girlCursor != null) {
+//            while (girlCursor.moveToNext()) {
+//                Log.e("yunchong", "ID:" + girlCursor.getInt(girlCursor.getColumnIndex("_id"))
+//                        + "  name:" + girlCursor.getString(girlCursor.getColumnIndex("name")));
+//            }
+//            girlCursor.close();
+//        }
     }
 }
