@@ -10,6 +10,6 @@
         android:onClick="startCamera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="写入数据"/>
+        android:text="查询数据数据"/>
 
 </LinearLayout>

@@ -99,28 +99,28 @@ public class MainActivity extends AppCompatActivity {
     public void startCamera(View view){
         Uri boyUri = Uri.parse("content://com.example.basictest.StubProvider/boy");
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", "张三");
-        getContentResolver().insert(boyUri, contentValues);
-//        Cursor boyCursor = getContentResolver().query(boyUri, new String[]{"_id", "name"}, null, null, null);
-//        if (boyCursor != null) {
-//            while (boyCursor.moveToNext()) {
-//                Log.e("yunchong", "ID:" + boyCursor.getInt(boyCursor.getColumnIndex("_id")) + "  name:" + boyCursor.getString(boyCursor.getColumnIndex("name")));
-//            }
-//            boyCursor.close();
-//        }
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("name", "张三");
+//        getContentResolver().insert(boyUri, contentValues);
+        Cursor boyCursor = getContentResolver().query(boyUri, new String[]{"_id", "name"}, null, null, null);
+        if (boyCursor != null) {
+            while (boyCursor.moveToNext()) {
+                Log.e("yunchong", "ID:" + boyCursor.getInt(boyCursor.getColumnIndex("_id")) + "  name:" + boyCursor.getString(boyCursor.getColumnIndex("name")));
+            }
+            boyCursor.close();
+        }
 
         Uri girlUri = Uri.parse("content://com.example.basictest.StubProvider/girl");
-        contentValues.clear();
-        contentValues.put("name", "李四");
-        getContentResolver().insert(girlUri, contentValues);
-//        Cursor girlCursor = getContentResolver().query(girlUri, new String[]{"_id", "name"}, null, null, null);
-//        if (girlCursor != null) {
-//            while (girlCursor.moveToNext()) {
-//                Log.e("yunchong", "ID:" + girlCursor.getInt(girlCursor.getColumnIndex("_id"))
-//                        + "  name:" + girlCursor.getString(girlCursor.getColumnIndex("name")));
-//            }
-//            girlCursor.close();
-//        }
+//        contentValues.clear();
+//        contentValues.put("name", "李四");
+//        getContentResolver().insert(girlUri, contentValues);
+        Cursor girlCursor = getContentResolver().query(girlUri, new String[]{"_id", "name"}, null, null, null);
+        if (girlCursor != null) {
+            while (girlCursor.moveToNext()) {
+                Log.e("yunchong", "ID:" + girlCursor.getInt(girlCursor.getColumnIndex("_id"))
+                        + "  name:" + girlCursor.getString(girlCursor.getColumnIndex("name")));
+            }
+            girlCursor.close();
+        }
     }
 }
