@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
@@ -17,38 +14,44 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.d(TAG, "handleMessage: msg" + msg.what);
-        }
-    };
+        private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.i("MY_TEST", "onStart1");
-        Log.i(TAG, "onStart: " + 1);
-        Log.i(TAG, "onStart: " + 2);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEST", "onResume1");
-        Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
-        Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
+        final ThreadLocal<String> mThreadLocal = new ThreadLocal<>();
+        mThreadLocal.set("nameMain");
+        Log.d(TAG, "onResume: " + mThreadLocal.get());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mThreadLocal.set("name1");
+                mThreadLocal.get();
+                Log.d(TAG, "run: " + mThreadLocal.get());
+            }
+        }).start();
 
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mThreadLocal.set("name2");
+                mThreadLocal.get();
+                Log.d(TAG, "run: " + mThreadLocal.get());
+            }
+        }).start();
     }
 
     @Override
@@ -72,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("MY_TEST", "onActivityResult1");
-        Log.i("MY_TEST", "resultCode:" + resultCode);
-
-        Log.i("MY_TEST", "data" + data.getStringExtra("resultValue"));
-
 
     }
 
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("MY_TEST", "onSaveInstanceState1" + "一个参数");
+        Log.i("MY_TEST", "onSaveInstanceState1" + outState.toString());
     }
 
     @Override
@@ -111,14 +109,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpTwo(View view) {
-        Log.d(TAG, "jumpTwo: ");//        startActivityForResult(new Intent(this, MainActivity2.class), 2);
-        Log.d(TAG, "jumpTwo: " + 1);
-        Log.d(TAG, "jumpTwo: " + 2);
-        Log.d(TAG, "jumpTwo: " + 3);
-        Log.d(TAG, "jumpTwo: " + 4);
+        startActivityForResult(new Intent(this, MainActivity2.class), 2);
     }
 
-    public void startCamera(View view){
-
+    public void startActivity2(View view){
+        Intent intent = new Intent(this, MainActivity2.class);
+        intent.putExtra("VALUE", "message");
+        startActivity(intent);
     }
 }
