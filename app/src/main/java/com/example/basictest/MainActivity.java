@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
 
+
     }
 
     @Override
@@ -71,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("MY_TEST", "onActivityResult1");
         Log.i("MY_TEST", "resultCode:" + resultCode);
+
         Log.i("MY_TEST", "data" + data.getStringExtra("resultValue"));
+
 
     }
 
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpTwo(View view) {
-        startActivityForResult(new Intent(this, MainActivity2.class), 2);
+//        startActivityForResult(new Intent(this, MainActivity2.class), 2);
     }
 
     public void startCamera(View view){
