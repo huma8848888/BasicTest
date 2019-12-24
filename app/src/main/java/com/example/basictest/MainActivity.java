@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +17,20 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-        private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.d(TAG, "handleMessage: msg" + msg.what);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
+
     }
 
     @Override
@@ -32,26 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEST", "onResume1");
-        final ThreadLocal<String> mThreadLocal = new ThreadLocal<>();
-        mThreadLocal.set("nameMain");
-        Log.d(TAG, "onResume: " + mThreadLocal.get());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mThreadLocal.set("name1");
-                mThreadLocal.get();
-                Log.d(TAG, "run: " + mThreadLocal.get());
-            }
-        }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mThreadLocal.set("name2");
-                mThreadLocal.get();
-                Log.d(TAG, "run: " + mThreadLocal.get());
-            }
-        }).start();
     }
 
     @Override
