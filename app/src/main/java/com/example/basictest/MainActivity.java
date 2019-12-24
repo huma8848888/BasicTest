@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "jumpTwo: " + 1);
         Log.d(TAG, "jumpTwo: " + 2);
         Log.d(TAG, "jumpTwo: " + 3);
+        Log.d(TAG, "jumpTwo: " + 4);
     }
 
     public void startCamera(View view){
