@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "jumpTwo: ");//        startActivityForResult(new Intent(this, MainActivity2.class), 2);
         Log.d(TAG, "jumpTwo: " + 1);
         Log.d(TAG, "jumpTwo: " + 2);
+        Log.d(TAG, "jumpTwo: " + 3);
     }
 
     public void startCamera(View view){
