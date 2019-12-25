@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i("MY_TEST", "onStart1");
+        Log.i(TAG, "onStart: " + 1);
     }
 
     @Override
