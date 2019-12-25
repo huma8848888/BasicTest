@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEST", "onResume1");
+        Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
+        Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
+
+
     }
 
     @Override
