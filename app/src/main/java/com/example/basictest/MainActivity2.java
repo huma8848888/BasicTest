@@ -1,12 +1,11 @@
 package com.example.basictest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -16,7 +15,6 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Log.d("MY_TEST", "onCreate: " + getIntent().getStringExtra("VALUE"));
     }
 
     @Override
@@ -79,14 +77,5 @@ public class MainActivity2 extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         Log.i("MY_TEST", "onRestoreInstanceState2");
     }
-
-    public void onClickSetResult(View view){
-        this.setResult(111, new Intent().putExtra("resultValue", "value"));
-    }
-    public void onClickFinish(View view){
-        finish();
-    }
-
-
 
 }

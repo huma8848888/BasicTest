@@ -1,16 +1,12 @@
 package com.example.basictest;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
-import android.view.View;
 
-import java.util.HashMap;
-import java.util.Map;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,26 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEST", "onResume1");
-        final ThreadLocal<String> mThreadLocal = new ThreadLocal<>();
-        mThreadLocal.set("nameMain");
-        Log.d(TAG, "onResume: " + mThreadLocal.get());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mThreadLocal.set("name1");
-                mThreadLocal.get();
-                Log.d(TAG, "run: " + mThreadLocal.get());
-            }
-        }).start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mThreadLocal.set("name2");
-                mThreadLocal.get();
-                Log.d(TAG, "run: " + mThreadLocal.get());
-            }
-        }).start();
     }
 
     @Override
@@ -75,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override
@@ -108,13 +83,4 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
     }
 
-    public void jumpTwo(View view) {
-        startActivityForResult(new Intent(this, MainActivity2.class), 2);
-    }
-
-    public void startActivity2(View view){
-        Intent intent = new Intent(this, MainActivity2.class);
-        intent.putExtra("VALUE", "message");
-        startActivity(intent);
-    }
 }
