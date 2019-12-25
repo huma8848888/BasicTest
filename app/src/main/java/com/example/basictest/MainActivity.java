@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onResume1");
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
+        Log.i(TAG, "onResume: " + "fixup Test");
 
 
     }
