@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -76,6 +77,16 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.i("MY_TEST", "onRestoreInstanceState2");
+    }
+
+    public void onClickSetResult(View view) {
+        Intent intent = new Intent();
+        intent.putExtra("Message", "Result");
+        setResult(3, intent);
+    }
+
+    public void onClickFinish(View view) {
+        finish();
     }
 
 }

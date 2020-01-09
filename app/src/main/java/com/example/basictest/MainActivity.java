@@ -4,18 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
 
-        private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
+        if (savedInstanceState != null) {
+            Log.i(TAG, "onCreate: " + savedInstanceState.get("Store"));
+        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragmentContainer1, BlankFragment.newInstance("param1", "param2"));
+        transaction.commit();
     }
 
     @Override
@@ -30,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onResume1");
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
         Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
-
-
     }
 
     @Override
@@ -55,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: " + resultCode);
+        Log.i(TAG, "onActivityResult: " + data.getStringExtra("Message"));
+        getSupportFragmentManager().findFragmentById(R.id.fragmentContainer1).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -85,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
         Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
+    }
+
+
+    public void startActivity2(View view) {
+        Intent intent = new Intent(this, MainActivity2.class);
+        startActivityForResult(intent, 2);
     }
 
 }
