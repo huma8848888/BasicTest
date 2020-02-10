@@ -1,10 +1,19 @@
 package com.example.basictest;
 
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +21,52 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private TextView textView;
+    private ImageView imageView;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
+        textView = findViewById(R.id.text);
+        imageView = findViewById(R.id.imageView);
+
+        String a = "aaa";
+        a.concat("bbb");
+
+
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d(TAG, "onTouchEvent: " + "MainActivity onTouchEvent");
+//        switch (event.getAction()){
+//            case MotionEvent.ACTION_DOWN:break;
+//            case MotionEvent.ACTION_MOVE:
+//                Log.d(TAG, "onTouchEvent: " + "x:" + event.getX() + ",y:" + event.getY());
+//                Log.d(TAG, "onTouchEvent: " + "rawX:" + event.getRawX() + ",rawY:" + event.getRawY());
+//                break;
+//            case MotionEvent.ACTION_UP:break;
+//        }
+        return super.onTouchEvent(event);
+    }
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//
+//        if (this.interceptTouchEvent){
+//            onTouchEvent(event);
+//        } else {
+//            child.dispatchTouchEvent();
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
     @Override
     protected void onStart() {
@@ -28,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("MY_TEST", "onResume1");
+
+
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -86,8 +137,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startActivity2(View view) {
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
+        TextView textView = new TextView(this);
+        textView.setText("hello world");
+        WindowManager.LayoutParams layoutParams =
+                new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.WRAP_CONTENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT,
+                        1, 0, PixelFormat.TRANSPARENT);
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.x = 600;
+        layoutParams.y = 600;
+        getWindowManager().addView(textView, layoutParams);
+    }
+
+
+    private void doSomething() {
+        Log.d(TAG, "doSomething: ");
     }
 
 }
