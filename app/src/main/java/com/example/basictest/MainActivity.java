@@ -1,10 +1,12 @@
 package com.example.basictest;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +14,33 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private Button button;
+    private ValueAnimator valueAnimator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
+        button = findViewById(R.id.button);
+
+        valueAnimator = ValueAnimator.ofInt(500, 0, 0, 500);
+        valueAnimator.setDuration(2000);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int currentValue = (Integer) animation.getAnimatedValue();
+                button.getLayoutParams().width = currentValue;
+                button.getLayoutParams().height = currentValue;
+                button.requestLayout();
+            }
+        });
+
     }
+
+    public void action(View view) {
+        valueAnimator.start();
+    }
+
 
     @Override
     protected void onStart() {
@@ -85,9 +108,5 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
     }
 
-    public void startActivity2(View view) {
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
-    }
 
 }
