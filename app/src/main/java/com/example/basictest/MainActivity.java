@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onCreate1");
         Log.i(TAG, "onCreate: +1");
         Log.i(TAG, "onCreate: +2");
+        Log.i(TAG, "onCreate: +3");
     }
 
     @Override
