@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
         Log.i(TAG, "onCreate: +1");
+        Log.i(TAG, "onCreate: +2");
     }
 
     @Override
