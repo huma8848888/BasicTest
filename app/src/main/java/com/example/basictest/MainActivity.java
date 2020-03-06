@@ -1,6 +1,6 @@
 package com.example.basictest;
 
-import android.animation.ValueAnimator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -15,30 +15,28 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private Button button;
-    private ValueAnimator valueAnimator;
+    private ObjectAnimator objectAnimator;
+    private CustomButton customButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
-        button = findViewById(R.id.button);
-
-        valueAnimator = ValueAnimator.ofInt(500, 0, 0, 500);
-        valueAnimator.setDuration(2000);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int currentValue = (Integer) animation.getAnimatedValue();
-                button.getLayoutParams().width = currentValue;
-                button.getLayoutParams().height = currentValue;
-                button.requestLayout();
-            }
-        });
-
+//        button = findViewById(R.id.button);
+        customButton = findViewById(R.id.customBtn);
+//        objectAnimator = ObjectAnimator.ofInt(button, "height", 500, 0, 0, 500);
     }
 
     public void action(View view) {
-        valueAnimator.start();
+        final Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+            }
+        };
+        thread.start();
     }
 
 

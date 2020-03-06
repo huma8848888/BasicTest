@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="customViewStyle">
+
+        <item name="hintTextColor">#EAEAEA</item>
+
+    </style>
 </resources>

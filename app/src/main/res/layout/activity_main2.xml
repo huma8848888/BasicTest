@@ -17,4 +17,8 @@
         android:layout_height="wrap_content"
         android:text="finish" />
 
+    <com.example.basictest.CustomButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
