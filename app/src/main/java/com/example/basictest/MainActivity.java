@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEST", "onResume1");
+        Log.i(TAG, "onResume: " + "添加了第二行代码，准备commit");
+        Log.i(TAG, "onResume: " + "添加了第二行代码，准备第二次commit");
+
 
     }
 
@@ -83,11 +86,6 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
         Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
-    }
-
-    public void startActivity2(View view) {
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
     }
 
 }
