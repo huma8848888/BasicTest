@@ -16,6 +16,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Log.d(TAG, "onCreate: main test");
+        Log.d(TAG, "onCreate: checkouttest1");
     }
 
     @Override
