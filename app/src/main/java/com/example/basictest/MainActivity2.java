@@ -17,7 +17,6 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         Log.d(TAG, "onCreate: 1");
         Log.d(TAG, "onCreate: 2");
-        Log.d(TAG, "onCreate: 3");
     }
 
     @Override
