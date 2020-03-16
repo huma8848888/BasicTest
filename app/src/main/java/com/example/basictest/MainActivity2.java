@@ -18,6 +18,7 @@ public class MainActivity2 extends AppCompatActivity {
         Log.d(TAG, "onCreate: 1");
         Log.d(TAG, "onCreate: 2");
         Log.d(TAG, "onCreate: 3");
+        Log.d(TAG, "onCreate: 21");
     }
 
     @Override
