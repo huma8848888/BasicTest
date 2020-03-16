@@ -15,12 +15,7 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Log.d(TAG, "onCreate: 1");
-        Log.d(TAG, "onCreate: 2");
-        Log.d(TAG, "onCreate: 3");
-        Log.d(TAG, "onCreate: 21");
-        Log.d(TAG, "onCreate: 22");
-        Log.d(TAG, "onCreate: 23");
+
     }
 
     @Override
