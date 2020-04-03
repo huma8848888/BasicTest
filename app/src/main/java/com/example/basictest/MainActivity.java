@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     @Override
@@ -83,4 +86,32 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
     }
 
+    public void startActivity2(View view) {
+        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Override
+    public void onMessageEvent(BaseMessageEvent event) {
+        super.onMessageEvent(event);
+        MainActivty1Event.codeIndentifierStatic(event);
+    }
+
+    public static class MainActivty1Event extends BaseMessageEvent {
+
+        public MainActivty1Event() {
+        }
+
+
+        public static void codeIndentifierStatic(BaseMessageEvent event) {
+            if (event instanceof MainActivty1Event)
+                event.actionHandler();
+        }
+
+        @Override
+        void actionHandler() {
+            //do something
+            Log.d("eventBus", "actionHandler: MainActivity1 received");
+        }
+    }
 }
