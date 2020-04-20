@@ -42,7 +42,13 @@ public class MainActivity3 extends BaseActivity {
     }
 
     public void doSomething1(View view) {
-        EventBus.getDefault().post(new MainActivity.MainActivty1Event());
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                EventBus.getDefault().post(new MainActivity.MainActivty1Event());
+            }
+        }.start();
     }
 
     public void doSomething2(View view) {

@@ -11,6 +11,11 @@ import androidx.annotation.Nullable;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
@@ -19,6 +24,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
+        Log.d(TAG, "onCreate: 1");
     }
 
     @Override
@@ -87,7 +93,21 @@ public class MainActivity extends BaseActivity {
     }
 
     public void startActivity2(View view) {
-        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.kl.cc/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GithubService service = retrofit.create(GithubService.class);
+        Call<UserBean> call = service.listRepos("226472");
+        try {
+            Response response = call.execute();
+            Log.d(TAG, "startActivity2:" + response.body().toString());
+        } catch (Exception e) {
+
+        }
+
+//        startActivity(new Intent(MainActivity.this, MainActivity2.class));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -100,6 +120,7 @@ public class MainActivity extends BaseActivity {
     public static class MainActivty1Event extends BaseMessageEvent {
 
         public MainActivty1Event() {
+
         }
 
 
