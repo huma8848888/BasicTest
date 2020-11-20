@@ -16,9 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
-        Log.i(TAG, "onCreate: start");
-        Log.i(TAG, "onCreate: 1 commit!!!");
-        Log.i(TAG, "onCreate: 3 commit!!!");
 
     }
 
