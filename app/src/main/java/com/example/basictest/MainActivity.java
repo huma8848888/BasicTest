@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.i(TAG, "onStart: onStart1");
         Log.i(TAG, "onStart: master checkout commit");
+        Log.i(TAG, "onStart: master checkout commit2");
     }
 
     @Override
