@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MY_TEST", "onCreate1");
         Log.i(TAG, "onCreate: master commit 2");
         Log.i(TAG, "onCreate: master commit 3");
+        Log.i(TAG, "onCreate: master commit 4");
     }
 
     @Override
