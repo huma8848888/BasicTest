@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate: commit111");
         Log.i(TAG, "onCreate: commit222");
         Log.i(TAG, "onCreate: git test commit");
+        Log.i(TAG, "onCreate: git test commit2");
     }
 
     @Override
