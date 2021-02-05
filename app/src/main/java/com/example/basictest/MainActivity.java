@@ -16,14 +16,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
-        Log.i(TAG, "onCreate: master commit1");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG, "onStart: test");
-        Log.i(TAG, "onStart: master commit");
+        Log.i(TAG, "onStart: onStart1");
     }
 
     @Override
