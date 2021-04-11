@@ -17,9 +17,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i("MY_TEST", "onCreate1");
         Log.i(TAG, "onCreate: master commit 2");
-        Log.i(TAG, "onCreate: master commit 3");
-        Log.i(TAG, "onCreate: master commit 4");
-        Log.i(TAG, "onCreate: master commit 4");
     }
 
     @Override
