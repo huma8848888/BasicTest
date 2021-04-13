@@ -2,21 +2,35 @@ package com.example.basictest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
+import com.example.basictest.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    User user;
+    Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.i("MY_TEST", "onCreate1");
-        Log.i(TAG, "onCreate: master commit 2");
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        user = new User("hello", "123456");
+        binding.setUser(user);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                user.setName("didi");
+                user.setPassword("*****");
+            }
+        }, 3000);
     }
 
     @Override
