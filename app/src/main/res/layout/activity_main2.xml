@@ -11,13 +11,12 @@
         android:id="@+id/setResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickSetResult"
         android:text="setResult"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="finish"
-        android:onClick="onClickFinish"/>
+        android:onClick="close"/>
 
 </LinearLayout>
