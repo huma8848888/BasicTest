@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         String str = "abc";
         Log.i("MY_TEST", "onCreate1");
         Log.i("MY_TEST", "onCreate2");
+        Log.i("MY_TEST", "onCreate2 test3");
+
+
     }
 
     @Override
