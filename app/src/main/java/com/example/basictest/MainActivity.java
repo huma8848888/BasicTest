@@ -1,5 +1,6 @@
 package com.example.basictest;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,21 +16,26 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    static class MyHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    }
-    Handler handler = new MyHandler();
+    TextView textView = null;
+    int baseTextSize = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String str = "abc";
-        Log.i("MY_TEST", "onCreate1");
-        Log.i("MY_TEST", "onCreate2");
+        textView = findViewById(R.id.text);
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setDuration(3000);
+        animator.setRepeatCount(3);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Log.d(TAG, animation.getAnimatedValue().toString());
+                textView.setText(animation.getAnimatedValue().toString());
+                textView.setTextSize((int)(animation.getAnimatedValue()));
+            }
+        });
+        animator.start();
     }
 
     @Override
