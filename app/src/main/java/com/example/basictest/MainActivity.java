@@ -3,95 +3,121 @@ package com.example.basictest;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.jakewharton.rxbinding.view.RxView;
+import com.tbruyelle.rxpermissions.RxPermissions;
+
+import java.io.File;
+
+import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
+    /*签名控件*/private CustomSignatureView mCustomSignatureView;
+
+    /*保存签名*/private TextView mSaveSignatureTex;
+
+    /*清除签名*/private TextView mClearSignatureTex;
+
+    /*清除签名*/private TextView mCenterSignatureTex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("MY_TEST", "onCreate1");
+        initView();
+        toolCofig();
+        initListener();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("MY_TEST", "onStart1");
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("MY_TEST", "onResume1");
-    }
+    /**
+     * 初始化控件
+     */
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("MY_TEST", "onPause1");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("MY_TEST", "onStop1");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("MY_TEST", "onDestroy1");
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.i("MY_TEST", "onActivityResult1");
-        Log.i("MY_TEST", "resultCode:" + resultCode);
-        Log.i("MY_TEST", "data" + data.getStringExtra("resultValue"));
+    private void initView() {
+        mCustomSignatureView= (CustomSignatureView) findViewById(R.id.CustomSignatureView_MainActivity_Canvas);
+        mSaveSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_Save);
+        mClearSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_clear);
+        mCenterSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_center);
 
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.i("MY_TEST", "onNewIntent1");
+    /**
+     * 配置
+     */
+    private void toolCofig(){
+        new RxPermissions(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if(aBoolean){
+                            mCustomSignatureView
+                                    .tooSetTextColor(R.color.cardview_dark_background)//设置签名字体颜色
+                                    .toolSetCanvasColor(R.color.cardview_light_background);//设置签名背景颜色
+                        }
+                    }
+                });
     }
+    /**
+     * 设置监听
+     */
+    private void initListener() {
+        /**
+         * 保存签名文件
+         */
+        RxView.clicks(mSaveSignatureTex)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if(mCustomSignatureView!=null){
+                            if( mCustomSignatureView.toolSaveSignatureFile(new
+                                    File(Environment.getExternalStorageDirectory().getAbsolutePath(),"aaa.png"))){
+                                Toast.makeText(MainActivity.this,"保存成功",Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        }
+                    }
+                });
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.i("MY_TEST", "onSaveInstanceState1" + "一个参数");
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        Log.i("MY_TEST", "onSaveInstanceState1" + "两个参数");
-    }
+        /**
+         * 清除签名
+         */
+        RxView.clicks(mClearSignatureTex)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if(mCustomSignatureView!=null){
+                            mCustomSignatureView.toolClearCanvas();
+                        }
+                    }
+                });
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.i("MY_TEST", "onRestoreInstanceState1" + "一个参数");
-    }
-
-    @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-        Log.i("MY_TEST", "onRestoreInstanceState1" + "两个参数");
-    }
-
-    public void jumpTwo(View view) {
-        startActivityForResult(new Intent(this, MainActivity2.class), 2);
-    }
-
-    public void startCamera(View view){
+        /**
+         * 居中签名
+         */
+        RxView.clicks(mCenterSignatureTex)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if(mCustomSignatureView!=null){
+                            /*还有点问题-暂时不使用这个功能*/
+                            mCustomSignatureView.toolMoveToCenter();
+                        }
+                    }
+                });
 
     }
 }
