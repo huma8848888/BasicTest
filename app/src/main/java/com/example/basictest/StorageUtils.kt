@@ -16,5 +16,11 @@ class StorageUtils {
         fun saveNumber(key: String, value: Int){
             sharedPreferences.edit().putInt(key, value).apply()
         }
+        fun getString(key: String): String?{
+            return sharedPreferences.getString(key, null)
+        }
+        fun getNumber(key: String): Int{
+            return sharedPreferences.getInt(key, 0)
+        }
     }
 }

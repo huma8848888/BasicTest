@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="#B8DDDA">
 
 
     <androidx.cardview.widget.CardView
@@ -20,12 +20,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:padding="16dp">
-
-            <TextView
-                android:id="@+id/TextView_MainActivity_Save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保存签名" />
 
             <TextView
                 android:id="@+id/TextView_MainActivity_clear"
@@ -50,9 +44,20 @@
         android:textSize="40dp"
         android:textColor="#F44336"
         app:layout_constraintTop_toBottomOf="@id/tab_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="当前需要画:对勾"/>
+        app:layout_constraintEnd_toStartOf="@id/icon"
+        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
+        android:text="当前需要画:"/>
+    <TextView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:textColor="#F44336"
+        app:layout_constraintStart_toEndOf="@id/notification"
+        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
+        app:layout_constraintTop_toTopOf="@id/notification"
+        app:layout_constraintBottom_toBottomOf="@id/notification"
+        android:text="✅"/>
 
     <com.example.basictest.CustomSignatureView
         android:id="@+id/CustomSignatureView_MainActivity_Canvas"
@@ -63,9 +68,10 @@
         app:layout_constraintTop_toBottomOf="@id/notification" />
     <Button
         android:id="@+id/save"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="保存画像"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:text="保存笔迹"
         app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintTop_toBottomOf="@id/CustomSignatureView_MainActivity_Canvas"/>
@@ -73,7 +79,7 @@
         android:id="@+id/right_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前对勾数\n(总共100个)"
+        android:text="当前✅数\n(共需要绘制200个)"
         app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintTop_toBottomOf="@id/save" />
 
@@ -81,16 +87,18 @@
         android:id="@+id/right_icon_nums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintTop_toBottomOf="@id/save"
-        tools:text="3" />
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toTopOf="@id/right_icon"
+        app:layout_constraintBottom_toBottomOf="@id/right_icon"
+        app:layout_constraintStart_toEndOf="@id/right_icon"
+        tools:text="3"
+        android:layout_marginLeft="30dp" />
 
     <TextView
         android:id="@+id/wrong_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前对叉数\n(总共100个)"
+        android:text="当前❎数\n(共需要绘制200个)"
         app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintTop_toBottomOf="@id/right_icon" />
 
@@ -98,26 +106,30 @@
         android:id="@+id/wrong_icon_nums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintTop_toTopOf="@id/wrong_icon"
         app:layout_constraintBottom_toBottomOf="@id/wrong_icon"
+        app:layout_constraintStart_toEndOf="@id/wrong_icon"
         tools:text="5" />
-
-    <EditText
-        android:id="@+id/name_edit"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#ffffff"
-        tools:text="名字"
-        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintTop_toBottomOf="@id/wrong_icon" />
-
-    <Button
-        android:id="@+id/confirm"
+    <TextView
+        android:id="@+id/notification2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="名字确认"
-        app:layout_constraintBottom_toBottomOf="@id/name_edit"
-        app:layout_constraintStart_toEndOf="@id/name_edit"/>
+        app:layout_constraintTop_toBottomOf="@id/wrong_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#F44336"
+        android:text="根据顶部提示，在画布中央绘制，点击保存画像，保存到本地\n如中途需要清除画布，点击左上角清除签名按钮" />
+
+    <TextView
+        android:id="@+id/notification3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/notification2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#F44336"
+        android:textSize="30dp"
+        android:text="请确保数据的准确性！！！" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
