@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     final String D = "D";
     //0：A，1：B，2：C，3：D
     private String inputMode = A;
+    public static String root_folder = "handwriting_data";
     private String base_file_name = "pic.png";
-    private final int MAX_NUM = 10;
+    private final int MAX_NUM = 50;
     private int aNum = 0;
     private int bNum = 0;
     private int cNum = 0;
     private int dNum = 0;
+    private int currNum = 0;
     final String A_NUM = "aNum";
     final String B_NUM = "bNum";
     final String C_NUM = "cNum";
@@ -55,6 +57,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initView();
         toolCofig();
         initListener();
+        if (aNum >= MAX_NUM){
+            inputMode = B;
+        }
+        if (bNum >= MAX_NUM){
+            inputMode = C;
+        }
+        if (cNum >= MAX_NUM){
+            inputMode = D;
+        }
         handleShowText(inputMode);
     }
 
@@ -69,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         binding.bNums.setText(String.valueOf(bNum));
         binding.cNums.setText(String.valueOf(cNum));
         binding.dNums.setText(String.valueOf(dNum));
-        binding.itemCount.setText("每一项需要绘制" + MAX_NUM + "个");
     }
 
     /**
@@ -137,37 +147,41 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                             Toast.makeText(MainActivity.this,"还没有画轨迹",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        String fileName = inputMode + File.separator + aNum + "_" + base_file_name;
+                        String fileName = "";
                         switch (inputMode){
                             case A:
                                 aNum++;
+                                fileName = inputMode + File.separator + aNum + "_" + base_file_name;
                                 binding.aNum.setText(String.valueOf(aNum));
                                 StorageUtils.Companion.saveNumber(A_NUM, aNum);
                                 break;
                             case B:
                                 bNum++;
+                                fileName = inputMode + File.separator + bNum + "_" + base_file_name;
                                 binding.bNums.setText(String.valueOf(bNum));
                                 StorageUtils.Companion.saveNumber(B_NUM, bNum);
                                 break;
                             case C:
                                 cNum++;
+                                fileName = inputMode + File.separator + cNum + "_" + base_file_name;
                                 binding.cNums.setText(String.valueOf(cNum));
                                 StorageUtils.Companion.saveNumber(C_NUM, cNum);
                                 break;
                             case D:
                                 dNum++;
+                                fileName = inputMode + File.separator + dNum + "_" + base_file_name;
                                 binding.dNums.setText(String.valueOf(dNum));
                                 StorageUtils.Companion.saveNumber(D_NUM, dNum);
                                 break;
                         }
 
-                        handleShowText(inputMode);
                         if( binding.CustomSignatureViewMainActivityCanvas.toolSaveSignatureFile(new
-                                File(PARENT_PATH + File.separator + "raw_pics",fileName))){
+                                File(PARENT_PATH + File.separator + root_folder + File.separator + "raw_pics",fileName))){
 //                                Toast.makeText(MainActivity.this,"保存成功:" + fileName,Toast.LENGTH_SHORT)
 //                                        .show();
                             binding.CustomSignatureViewMainActivityCanvas.savePointList(inputMode);
                             binding.CustomSignatureViewMainActivityCanvas.toolClearCanvas();
+                            handleShowText(inputMode);
                         } else {
                             Toast.makeText(MainActivity.this,"不能保存文件:" + fileName,Toast.LENGTH_SHORT)
                                     .show();
@@ -190,17 +204,16 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     private void handleShowText(String inputMode){
-        int currCount = 0;
         if (TextUtils.equals(inputMode, A)){
-            currCount = aNum;
+            this.currNum = aNum;
         } else if (TextUtils.equals(inputMode, B)){
-            currCount = bNum;
+            this.currNum = bNum;
         } else if (TextUtils.equals(inputMode, C)){
-            currCount = cNum;
+            this.currNum = cNum;
         } else if (TextUtils.equals(inputMode, D)){
-            currCount = dNum;
+            this.currNum = dNum;
         }
-        if (currCount > MAX_NUM){
+        if (this.currNum >= MAX_NUM){
             if (TextUtils.equals(inputMode, A)){
                 this.inputMode = B;
             } else if (TextUtils.equals(inputMode, B)){
@@ -210,5 +223,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
             binding.icon.setText(this.inputMode);
         }
+        binding.itemCount.setText("每一项需要绘制" + MAX_NUM + "个,当前项已绘制:" + currNum + "个");
     }
 }

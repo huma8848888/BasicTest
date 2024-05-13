@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -47,6 +46,10 @@ public class CustomSignatureView extends View {
   /*路径-笔画*/private Path mPath;
 
   /*上下文*/private Context mContext;
+  private final int SAVE_HEIGHT = 224;
+  private final int SAVE_WIDTH = 224;
+  private final int CANVAS_HEIGHT = 448;
+  private final int CANVAS_WIDTH = 448;
 
   public CustomSignatureView(Context context) {
     super(context);
@@ -125,7 +128,7 @@ public class CustomSignatureView extends View {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    setMeasuredDimension(448, 448);
+    setMeasuredDimension(CANVAS_WIDTH, CANVAS_HEIGHT);
   }
 
   /**
@@ -161,7 +164,9 @@ public class CustomSignatureView extends View {
      // mSignatureCanvas.drawColor(mCanvasColor, PorterDuff.Mode.CLEAR);
       invalidate();
       cachedPointList.clear();
-      cachedPointItem.clear();
+      if (cachedPointItem != null){
+        cachedPointItem.clear();
+      }
     }
   }
 
@@ -194,6 +199,7 @@ public class CustomSignatureView extends View {
     setDrawingCacheEnabled(true);
     buildDrawingCache();
     Bitmap mBitmap = Bitmap.createBitmap(getDrawingCache());
+    mBitmap = Bitmap.createScaledBitmap(mBitmap, SAVE_WIDTH, SAVE_HEIGHT, false);
     setDrawingCacheEnabled(false);
     if (mBitmap != null) {
 
@@ -248,10 +254,11 @@ public class CustomSignatureView extends View {
     File file;
     try {
         jsonObject.putOpt("points", arr);
+        jsonObject.putOpt("size", SAVE_WIDTH + "*" + SAVE_HEIGHT);
     } catch (Exception e){
       e.printStackTrace();
     }
-    file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + inputMode, "chars_traces.txt");
+    file = new File(MainActivity.PARENT_PATH + File.separator + MainActivity.root_folder + File.separator + "points" + File.separator + inputMode, "chars_traces.txt");
     try {
       if(!new File(file.getParent()).exists()){
         new File(file.getParent()).mkdirs();
