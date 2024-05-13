@@ -125,7 +125,7 @@ public class CustomSignatureView extends View {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    setMeasuredDimension(224, 224);
+    setMeasuredDimension(448, 448);
   }
 
   /**
@@ -239,7 +239,7 @@ public class CustomSignatureView extends View {
     return false;
   }
 
-  public void savePointList(boolean isRightMode){
+  public void savePointList(String inputMode){
     JSONObject jsonObject = new JSONObject();
     JSONArray arr = new JSONArray();
     for (List<PointF> item : cachedPointList){
@@ -251,11 +251,7 @@ public class CustomSignatureView extends View {
     } catch (Exception e){
       e.printStackTrace();
     }
-    if (isRightMode){
-      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "right", "right_output_points.txt");
-    } else {
-      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "wrong", "wrong_output_points.txt");
-    }
+    file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + inputMode, "chars_traces.txt");
     try {
       if(!new File(file.getParent()).exists()){
         new File(file.getParent()).mkdirs();

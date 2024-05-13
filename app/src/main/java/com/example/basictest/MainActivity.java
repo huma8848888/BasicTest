@@ -1,19 +1,16 @@
 package com.example.basictest;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
-import android.util.Log;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.basictest.databinding.ActivityMainBinding;
 import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.vmadalin.easypermissions.EasyPermissions;
@@ -25,41 +22,42 @@ import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     public static final String PARENT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
-    /*签名控件*/private CustomSignatureView mCustomSignatureView;
-
-    /*保存签名*/private TextView mSaveSignatureTex;
-
-    /*清除签名*/private TextView mClearSignatureTex;
-
-    /*清除签名*/private TextView mCenterSignatureTex;
-    private TextView rightNumTv;
-    private TextView wrongNumTv;
-    private TextView iconTv;
-    private boolean isRightMode = true;
+    final String A = "A";
+    final String B = "B";
+    final String C = "C";
+    final String D = "D";
+    //0：A，1：B，2：C，3：D
+    private String inputMode = A;
     private String base_file_name = "pic.png";
-    private final int MAX_NUM = 200;
-    private int rightNum = 0;
-    private int wrongNum = 0;
-    final String RIGHT_NUM = "rightNum";
-    final String WRONG_NUM = "wrongNum";
+    private final int MAX_NUM = 10;
+    private int aNum = 0;
+    private int bNum = 0;
+    private int cNum = 0;
+    private int dNum = 0;
+    final String A_NUM = "aNum";
+    final String B_NUM = "bNum";
+    final String C_NUM = "cNum";
+    final String D_NUM = "dNum";
+    private ActivityMainBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         requestPermission();
         StorageUtils.Companion.init(this);
-        rightNum = StorageUtils.Companion.getNumber(RIGHT_NUM);
-        wrongNum = StorageUtils.Companion.getNumber(WRONG_NUM);
+        aNum = StorageUtils.Companion.getNumber(A_NUM);
+        bNum = StorageUtils.Companion.getNumber(B_NUM);
+        cNum = StorageUtils.Companion.getNumber(C_NUM);
+        dNum = StorageUtils.Companion.getNumber(D_NUM);
         initView();
         toolCofig();
         initListener();
-        if (rightNum > MAX_NUM){
-            isRightMode = false;
-            iconTv.setText("❎");
-        }
+        handleShowText(inputMode);
     }
+
 
 
     /**
@@ -67,15 +65,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      */
 
     private void initView() {
-        mCustomSignatureView= (CustomSignatureView) findViewById(R.id.CustomSignatureView_MainActivity_Canvas);
-        mSaveSignatureTex= (TextView) findViewById(R.id.save);
-        mClearSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_clear);
-        mCenterSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_center);
-        rightNumTv = findViewById(R.id.right_icon_nums);
-        wrongNumTv = findViewById(R.id.wrong_icon_nums);
-        iconTv = findViewById(R.id.icon);
-        rightNumTv.setText(String.valueOf(rightNum));
-        wrongNumTv.setText(String.valueOf(wrongNum));
+        binding.aNum.setText(String.valueOf(aNum));
+        binding.bNums.setText(String.valueOf(bNum));
+        binding.cNums.setText(String.valueOf(cNum));
+        binding.dNums.setText(String.valueOf(dNum));
+        binding.itemCount.setText("每一项需要绘制" + MAX_NUM + "个");
     }
 
     /**
@@ -89,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     @Override
                     public void call(Boolean aBoolean) {
                         if(aBoolean){
-                            mCustomSignatureView
+                            binding.CustomSignatureViewMainActivityCanvas
                                     .tooSetTextColor(R.color.cardview_dark_background)//设置签名字体颜色
                                     .toolSetCanvasColor(R.color.cardview_light_background);//设置签名背景颜色
                         }
@@ -135,42 +129,48 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         /**
          * 保存签名文件
          */
-        RxView.clicks(mSaveSignatureTex)
+        RxView.clicks(binding.save)
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        if (mCustomSignatureView.isDrawingCacheEmpty()){
+                        if (binding.CustomSignatureViewMainActivityCanvas.isDrawingCacheEmpty()){
                             Toast.makeText(MainActivity.this,"还没有画轨迹",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        String fileName = "";
-                        if (isRightMode){
-                            fileName = "right" +File.separator+ "right_" + rightNum + "_" + base_file_name;
-                            rightNum++;
-                            rightNumTv.setText(String.valueOf(rightNum));
-                            StorageUtils.Companion.saveNumber(RIGHT_NUM, rightNum);
-                        } else {
-                            fileName = "wrong" +File.separator+"wrong_" + wrongNum + "_" + base_file_name;
-                            wrongNum++;
-                            wrongNumTv.setText(String.valueOf(wrongNum));
-                            StorageUtils.Companion.saveNumber(WRONG_NUM, wrongNum);
+                        String fileName = inputMode + File.separator + aNum + "_" + base_file_name;
+                        switch (inputMode){
+                            case A:
+                                aNum++;
+                                binding.aNum.setText(String.valueOf(aNum));
+                                StorageUtils.Companion.saveNumber(A_NUM, aNum);
+                                break;
+                            case B:
+                                bNum++;
+                                binding.bNums.setText(String.valueOf(bNum));
+                                StorageUtils.Companion.saveNumber(B_NUM, bNum);
+                                break;
+                            case C:
+                                cNum++;
+                                binding.cNums.setText(String.valueOf(cNum));
+                                StorageUtils.Companion.saveNumber(C_NUM, cNum);
+                                break;
+                            case D:
+                                dNum++;
+                                binding.dNums.setText(String.valueOf(dNum));
+                                StorageUtils.Companion.saveNumber(D_NUM, dNum);
+                                break;
                         }
-                        if (rightNum > MAX_NUM){
-                            isRightMode = false;
-                            iconTv.setText("❎");
-                        }
-                        if(mCustomSignatureView!=null){
-                            if( mCustomSignatureView.toolSaveSignatureFile(new
-                                    File(PARENT_PATH + File.separator + "raw_pics",fileName))){
+
+                        handleShowText(inputMode);
+                        if( binding.CustomSignatureViewMainActivityCanvas.toolSaveSignatureFile(new
+                                File(PARENT_PATH + File.separator + "raw_pics",fileName))){
 //                                Toast.makeText(MainActivity.this,"保存成功:" + fileName,Toast.LENGTH_SHORT)
 //                                        .show();
-                                mCustomSignatureView.savePointList(isRightMode);
-                                mCustomSignatureView.toolClearCanvas();
-                            } else {
-                                Toast.makeText(MainActivity.this,"不能保存文件:" + fileName,Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-
+                            binding.CustomSignatureViewMainActivityCanvas.savePointList(inputMode);
+                            binding.CustomSignatureViewMainActivityCanvas.toolClearCanvas();
+                        } else {
+                            Toast.makeText(MainActivity.this,"不能保存文件:" + fileName,Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
                 });
@@ -179,29 +179,36 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         /**
          * 清除签名
          */
-        RxView.clicks(mClearSignatureTex)
+        RxView.clicks(binding.TextViewMainActivityClear)
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        if(mCustomSignatureView!=null){
-                            mCustomSignatureView.toolClearCanvas();
-                        }
+                            binding.CustomSignatureViewMainActivityCanvas.toolClearCanvas();
                     }
                 });
 
-        /**
-         * 居中签名
-         */
-        RxView.clicks(mCenterSignatureTex)
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        if(mCustomSignatureView!=null){
-                            /*还有点问题-暂时不使用这个功能*/
-//                            mCustomSignatureView.toolMoveToCenter();
-                        }
-                    }
-                });
+    }
 
+    private void handleShowText(String inputMode){
+        int currCount = 0;
+        if (TextUtils.equals(inputMode, A)){
+            currCount = aNum;
+        } else if (TextUtils.equals(inputMode, B)){
+            currCount = bNum;
+        } else if (TextUtils.equals(inputMode, C)){
+            currCount = cNum;
+        } else if (TextUtils.equals(inputMode, D)){
+            currCount = dNum;
+        }
+        if (currCount > MAX_NUM){
+            if (TextUtils.equals(inputMode, A)){
+                this.inputMode = B;
+            } else if (TextUtils.equals(inputMode, B)){
+                this.inputMode = C;
+            } else if (TextUtils.equals(inputMode, C)){
+                this.inputMode = D;
+            }
+            binding.icon.setText(this.inputMode);
+        }
     }
 }
