@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private String inputMode = A;
     public static String root_folder = "handwriting_data";
     private String base_file_name = "pic.png";
-    private final int MAX_NUM = 50;
+    private final int MAX_NUM = 70;
     private int aNum = 0;
     private int bNum = 0;
     private int cNum = 0;
@@ -57,16 +57,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initView();
         toolCofig();
         initListener();
-        if (aNum >= MAX_NUM){
-            inputMode = B;
-        }
-        if (bNum >= MAX_NUM){
-            inputMode = C;
-        }
-        if (cNum >= MAX_NUM){
-            inputMode = D;
-        }
-        handleShowText(inputMode);
+        handleInit();
     }
 
 
@@ -201,6 +192,30 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     }
                 });
 
+    }
+
+    private void handleInit(){
+        if (aNum < MAX_NUM){
+            inputMode = A;
+        } else if (bNum < MAX_NUM){
+            inputMode = B;
+        } else if (cNum < MAX_NUM){
+            inputMode = C;
+        } else {
+            inputMode = D;
+        }
+
+        if (TextUtils.equals(inputMode, A)){
+            this.currNum = aNum;
+        } else if (TextUtils.equals(inputMode, B)){
+            this.currNum = bNum;
+        } else if (TextUtils.equals(inputMode, C)){
+            this.currNum = cNum;
+        } else if (TextUtils.equals(inputMode, D)){
+            this.currNum = dNum;
+        }
+        binding.icon.setText(this.inputMode);
+        binding.itemCount.setText("每一项需要绘制" + MAX_NUM + "个,当前项已绘制:" + currNum + "个");
     }
 
     private void handleShowText(String inputMode){

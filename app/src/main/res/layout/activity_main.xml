@@ -167,7 +167,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="#F44336"
-        android:text="根据顶部提示，在画布中央绘制，四周可以留白，绘制结束点击保存笔迹按钮\n中途需要清除画布，点击左上角清除签名按钮" />
+        android:text="根据顶部提示，在画布中央绘制，四周留白，绘制结束点击保存笔迹按钮\n中途需要清除画布，点击左上角清除签名按钮" />
 
     <TextView
         android:id="@+id/notification3"
