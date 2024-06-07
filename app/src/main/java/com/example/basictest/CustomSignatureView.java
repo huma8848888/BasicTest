@@ -125,7 +125,7 @@ public class CustomSignatureView extends View {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    setMeasuredDimension(224, 224);
+    setMeasuredDimension(360, 360);
   }
 
   /**
@@ -193,7 +193,7 @@ public class CustomSignatureView extends View {
     mSignatureCanvas.drawColor(ContextCompat.getColor(mContext, mCanvasColor));
     setDrawingCacheEnabled(true);
     buildDrawingCache();
-    Bitmap mBitmap = Bitmap.createBitmap(getDrawingCache());
+    Bitmap mBitmap = Bitmap.createScaledBitmap(getDrawingCache(), 224, 224, false);
     setDrawingCacheEnabled(false);
     if (mBitmap != null) {
 
@@ -252,9 +252,9 @@ public class CustomSignatureView extends View {
       e.printStackTrace();
     }
     if (isRightMode){
-      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "right", "right_output_points.txt");
+      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "da", "da_output_points.txt");
     } else {
-      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "wrong", "wrong_output_points.txt");
+      file = new File(MainActivity.PARENT_PATH + File.separator + "points" + File.separator + "si", "si_output_points.txt");
     }
     try {
       if(!new File(file.getParent()).exists()){

@@ -1,16 +1,13 @@
 package com.example.basictest;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +21,7 @@ import java.util.List;
 import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
-    public static final String PARENT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String PARENT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "daandsi";
     /*签名控件*/private CustomSignatureView mCustomSignatureView;
 
     /*保存签名*/private TextView mSaveSignatureTex;
@@ -32,10 +29,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     /*清除签名*/private TextView mClearSignatureTex;
 
     /*清除签名*/private TextView mCenterSignatureTex;
-    private TextView rightNumTv;
-    private TextView wrongNumTv;
-    private TextView iconTv;
-    private boolean isRightMode = true;
+    private Button daBtn;
+    private Button siBtn;
+    private TextView daTv;
+    private TextView siTv;
+    private boolean isDaMode = true;
     private String base_file_name = "pic.png";
     private final int MAX_NUM = 200;
     private int rightNum = 0;
@@ -55,10 +53,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initView();
         toolCofig();
         initListener();
-        if (rightNum > MAX_NUM){
-            isRightMode = false;
-            iconTv.setText("❎");
-        }
     }
 
 
@@ -71,11 +65,24 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         mSaveSignatureTex= (TextView) findViewById(R.id.save);
         mClearSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_clear);
         mCenterSignatureTex= (TextView) findViewById(R.id.TextView_MainActivity_center);
-        rightNumTv = findViewById(R.id.right_icon_nums);
-        wrongNumTv = findViewById(R.id.wrong_icon_nums);
-        iconTv = findViewById(R.id.icon);
-        rightNumTv.setText(String.valueOf(rightNum));
-        wrongNumTv.setText(String.valueOf(wrongNum));
+        daTv = findViewById(R.id.da_nums);
+        siTv = findViewById(R.id.si_nums);
+        daTv.setText(String.valueOf(rightNum));
+        siTv.setText(String.valueOf(wrongNum));
+        daBtn = findViewById(R.id.da_mode);
+        siBtn = findViewById(R.id.si_mode);
+        daBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isDaMode = true;
+            }
+        });
+        siBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isDaMode = false;
+            }
+        });
     }
 
     /**
@@ -144,27 +151,23 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                             return;
                         }
                         String fileName = "";
-                        if (isRightMode){
-                            fileName = "right" +File.separator+ "right_" + rightNum + "_" + base_file_name;
+                        if (isDaMode){
+                            fileName = "da" +File.separator+ "da_" + rightNum + "_" + base_file_name;
                             rightNum++;
-                            rightNumTv.setText(String.valueOf(rightNum));
+                            daTv.setText(String.valueOf(rightNum));
                             StorageUtils.Companion.saveNumber(RIGHT_NUM, rightNum);
                         } else {
-                            fileName = "wrong" +File.separator+"wrong_" + wrongNum + "_" + base_file_name;
+                            fileName = "si" +File.separator+"si_" + wrongNum + "_" + base_file_name;
                             wrongNum++;
-                            wrongNumTv.setText(String.valueOf(wrongNum));
+                            siTv.setText(String.valueOf(wrongNum));
                             StorageUtils.Companion.saveNumber(WRONG_NUM, wrongNum);
-                        }
-                        if (rightNum > MAX_NUM){
-                            isRightMode = false;
-                            iconTv.setText("❎");
                         }
                         if(mCustomSignatureView!=null){
                             if( mCustomSignatureView.toolSaveSignatureFile(new
                                     File(PARENT_PATH + File.separator + "raw_pics",fileName))){
 //                                Toast.makeText(MainActivity.this,"保存成功:" + fileName,Toast.LENGTH_SHORT)
 //                                        .show();
-                                mCustomSignatureView.savePointList(isRightMode);
+                                mCustomSignatureView.savePointList(isDaMode);
                                 mCustomSignatureView.toolClearCanvas();
                             } else {
                                 Toast.makeText(MainActivity.this,"不能保存文件:" + fileName,Toast.LENGTH_SHORT)
