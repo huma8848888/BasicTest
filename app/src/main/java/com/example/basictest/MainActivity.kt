@@ -79,14 +79,15 @@ class MainActivity : AppCompatActivity() {
 
                         }
                     })
-                    analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){
-                        binding!!.result.text = when(it){
+                    analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){ result, timecost ->
+                        binding!!.result.text = when(result){
                             0 -> A
                             1 -> B
                             2 -> C
                             3 -> D
                             else -> "Unknown"
                         }
+                        binding!!.timecost.text = "inference timecost:${timecost}ms"
                     }
                 })
         /**

@@ -71,7 +71,7 @@ internal class ORTAnalyzer(
         return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
 
-    fun analyze(image: Bitmap?, callBack: (Int)-> Unit) {
+    fun analyze(image: Bitmap?, callBack: (Int, Int)-> Unit) {
         // Convert the input image to bitmap and resize to 224x224 for model input
         val rawBitmap = image?.let { Bitmap.createScaledBitmap(it, 224, 224, false) }
         val bitmap = rawBitmap?.rotate(0.0f)
@@ -97,13 +97,14 @@ internal class ORTAnalyzer(
                         var maxIndex = 0;
                         probabilities.forEachIndexed(object : (Int, Float) -> Unit {
                             override fun invoke(index: Int, value: Float) {
+                                Log.i(TAG, "Label: ${index} Probability: ${value}")
                                 if (probabilities[index] > maxVal){
                                     maxVal = probabilities[index]
                                     maxIndex = index
                                 }
                             }
                         })
-                        callBack.invoke(maxIndex)
+                        callBack.invoke(maxIndex, result.processTimeMs.toInt())
                         Log.i(TAG, "Predicted label: ${maxIndex}")
                         Log.i(TAG, "Process time: ${result.processTimeMs} ms")
                     }

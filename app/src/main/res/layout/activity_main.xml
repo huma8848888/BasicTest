@@ -25,6 +25,7 @@
                 android:id="@+id/TextView_MainActivity_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginLeft="16dp"
                 android:text="清除签名" />
 
@@ -46,8 +47,17 @@
         android:textColor="#F44336"
         app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintBottom_toTopOf="@id/CustomSignatureView_MainActivity_Canvas"/>
+        app:layout_constraintBottom_toTopOf="@id/timecost"/>
 
+    <TextView
+        android:id="@+id/timecost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textColor="#F44336"
+        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
+        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
+        app:layout_constraintBottom_toTopOf="@id/CustomSignatureView_MainActivity_Canvas"/>
 
     <com.example.basictest.CustomSignatureView
         android:id="@+id/CustomSignatureView_MainActivity_Canvas"

@@ -39,9 +39,17 @@ fun preProcess(bitmap: Bitmap): FloatBuffer {
         for (j in 0..IMAGE_SIZE_Y - 1) {
             val idx = IMAGE_SIZE_Y * i + j
             val pixelValue = bmpData[idx]
-            imgData.put(idx, (((pixelValue shr 16 and 0xFF) / 255f)))
-            imgData.put(idx + stride, (((pixelValue shr 8 and 0xFF) / 255f)))
-            imgData.put(idx + stride * 2, (((pixelValue and 0xFF) / 255f)))
+            val data = if (pixelValue == -1){
+                1.0f
+            } else {
+                0.3f
+            }
+//            imgData.put(idx, (((pixelValue shr 16 and 0xFF) / 255f)))
+//            imgData.put(idx + stride, (((pixelValue shr 8 and 0xFF) / 255f)))
+//            imgData.put(idx + stride * 2, (((pixelValue and 0xFF) / 255f)))
+            imgData.put(idx, (data))
+            imgData.put(idx + stride, ((data)))
+            imgData.put(idx + stride * 2, ((data)))
         }
     }
 
