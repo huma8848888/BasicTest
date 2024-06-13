@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "com.example.daandsi"
+        applicationId "com.example.infinite_track"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1

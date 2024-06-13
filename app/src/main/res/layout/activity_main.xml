@@ -46,7 +46,16 @@
         app:layout_constraintTop_toBottomOf="@id/tab_bar"
         app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
-        android:text="请居中书写，大字和思字每个字写50遍"/>
+        android:text="请居中书写，大字和思字每个字每人写50遍"/>
+    <TextView
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/notification"
+        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
+        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
+        android:text="当前模式：写大字模式"/>
     <TextView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
@@ -61,11 +70,11 @@
 
     <com.example.basictest.CustomSignatureView
         android:id="@+id/CustomSignatureView_MainActivity_Canvas"
-        android:layout_width="255dp"
-        android:layout_height="255dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification" />
+        app:layout_constraintTop_toBottomOf="@id/mode" />
     <Button
         android:id="@+id/save"
         android:layout_width="150dp"

@@ -21,7 +21,7 @@ import java.util.List;
 import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
-    public static final String PARENT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "daandsi";
+    public static final String PARENT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "wuxianguiji";
     /*签名控件*/private CustomSignatureView mCustomSignatureView;
 
     /*保存签名*/private TextView mSaveSignatureTex;
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     /*清除签名*/private TextView mCenterSignatureTex;
     private Button daBtn;
     private Button siBtn;
+    private TextView mode;
     private TextView daTv;
     private TextView siTv;
     private boolean isDaMode = true;
@@ -70,17 +71,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         daTv.setText(String.valueOf(rightNum));
         siTv.setText(String.valueOf(wrongNum));
         daBtn = findViewById(R.id.da_mode);
+        mode = findViewById(R.id.mode);
         siBtn = findViewById(R.id.si_mode);
         daBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isDaMode = true;
+                mode.setText("当前模式：写大字模式");
             }
         });
         siBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isDaMode = false;
+                mode.setText("当前模式：写思字模式");
             }
         });
     }

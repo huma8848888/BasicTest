@@ -125,7 +125,7 @@ public class CustomSignatureView extends View {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    setMeasuredDimension(360, 360);
+    setMeasuredDimension(Utils.Companion.dp2px(mContext, 300), Utils.Companion.dp2px(mContext, 300));
   }
 
   /**
