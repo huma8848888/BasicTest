@@ -138,7 +138,7 @@ public class CustomSignatureView extends View {
     /**初始化*/mTextPaint = new Paint();
     /**设置画笔颜色*/mTextPaint.setColor(ContextCompat.getColor(mContext, mTestColor));
     /**设置画笔样式*/mTextPaint.setStyle(Paint.Style.STROKE);
-    /**设置画笔粗细*/mTextPaint.setStrokeWidth(10);
+    /**设置画笔粗细*/mTextPaint.setStrokeWidth(Utils.Companion.dp2px(mContext, 15));
     /**使用抗锯齿*/mTextPaint.setAntiAlias(true);
     /**使用防抖动*/mTextPaint.setDither(true);
     /**设置笔触样式-圆*/mTextPaint.setStrokeCap(Paint.Cap.ROUND);

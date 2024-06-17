@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     // Read ort model into a ByteArray, run in background
     fun readModel(): ByteArray  {
-        val modelID = R.raw.abcd_mbv3
+        val modelID = R.raw.da_recognize
         return resources.openRawResource(modelID).readBytes()
     }
 
@@ -81,10 +81,8 @@ class MainActivity : AppCompatActivity() {
                     })
                     analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){ result, timecost ->
                         binding!!.result.text = when(result){
-                            0 -> A
-                            1 -> B
-                            2 -> C
-                            3 -> D
+                            0 -> "大 yes"
+                            1 -> "大 no"
                             else -> "Unknown"
                         }
                         binding!!.timecost.text = "inference timecost:${timecost}ms"

@@ -91,8 +91,7 @@ internal class ORTAnalyzer(
                     output.use {
                         result.processTimeMs = SystemClock.uptimeMillis() - startTime
                         @Suppress("UNCHECKED_CAST")
-                        val rawOutput = ((output?.get(0)?.value) as Array<FloatArray>)[0]
-                        val probabilities = softMax(rawOutput)
+                        val probabilities = ((output?.get(0)?.value) as Array<FloatArray>)[0]
                         var maxVal = probabilities.first()
                         var maxIndex = 0;
                         probabilities.forEachIndexed(object : (Int, Float) -> Unit {
