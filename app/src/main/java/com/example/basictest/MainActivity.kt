@@ -5,11 +5,17 @@ import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import android.Manifest
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.basictest.databinding.ActivityMainBinding
+import com.example.basictest.pen.pt.InkPen
+import com.huitongzhiyuan.testapplication.HandWriteBitmap
+import com.huitongzhiyuan.testapplication.pen.HandWriteView
+import com.huitongzhiyuan.testapplication.pen.obj.NoteDataManager
 import com.jakewharton.rxbinding.view.RxView
 import com.tbruyelle.rxpermissions.RxPermissions
 import rx.functions.Action1
@@ -21,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     val C = "C"
     val D = "D"
     var ortEnv: OrtEnvironment? = null
+    var handWriteView: HandWriteView? = null
 
     //0：A，1：B，2：C，3：D
     private var binding: ActivityMainBinding? = null
@@ -40,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     // Read ort model into a ByteArray, run in background
     fun readModel(): ByteArray  {
-        val modelID = R.raw.da_recognize
+        val modelID = R.raw.da_recognize_with_self_collect_data
         return resources.openRawResource(modelID).readBytes()
     }
 
@@ -53,9 +60,27 @@ class MainActivity : AppCompatActivity() {
                         Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe { aBoolean ->
                     if (aBoolean) {
-                        binding!!.CustomSignatureViewMainActivityCanvas
-                                .tooSetTextColor(R.color.cardview_dark_background) //设置签名字体颜色
-                                .toolSetCanvasColor(R.color.cardview_light_background) //设置签名背景颜色
+
+                        //添加手写区域
+                        val baseWidth = 35f
+                        var pen: InkPen = InkPen(baseWidth)
+                        handWriteView = HandWriteView(this)
+                        handWriteView?.pen = pen
+
+                        handWriteView?.setBackgroundColor(Color.WHITE)
+
+                        val layoutParams = FrameLayout.LayoutParams(600, 600)
+                        layoutParams.width = 600
+                        layoutParams.height = 600
+                        layoutParams.leftMargin = 0
+                        layoutParams.topMargin = 0
+
+                        val componentContainer =  findViewById<FrameLayout>(R.id.CustomSignatureView_MainActivity_Canvas)
+                        componentContainer.addView(handWriteView, layoutParams)
+                        NoteDataManager.insertAndGetPage("1234").let {
+                            pen.setCurrentWritePage(it)
+                            handWriteView?.recovery(it)
+                        }
                     }
                 }
     }
@@ -69,17 +94,17 @@ class MainActivity : AppCompatActivity() {
          */
         RxView.clicks(binding!!.recognize)
                 .subscribe(Action1 {
-                    if (binding!!.CustomSignatureViewMainActivityCanvas.isDrawingCacheEmpty) {
-                        Toast.makeText(this@MainActivity, "还没有画轨迹", Toast.LENGTH_SHORT).show()
-                        return@Action1
-                    }
                     val ortSession = ortEnv?.createSession(readModel())
                     val analyzer = ORTAnalyzer(ortSession, object :(Result)-> Unit{
                         override fun invoke(p1: Result) {
 
                         }
                     })
-                    analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){ result, timecost ->
+
+                    var offscreenBitmap: Bitmap? = handWriteView?.offscreenBitmap
+                    val croppedBitmap: Bitmap? = HandWriteBitmap.cropTransparentArea(offscreenBitmap,224,20)
+
+                    analyzer.analyze(croppedBitmap){ result, timecost ->
                         binding!!.result.text = when(result){
                             0 -> "大 yes"
                             1 -> "大 no"
@@ -92,6 +117,8 @@ class MainActivity : AppCompatActivity() {
          * 清除签名
          */
         RxView.clicks(binding!!.TextViewMainActivityClear)
-                .subscribe { binding!!.CustomSignatureViewMainActivityCanvas.toolClearCanvas() }
+                .subscribe {
+                    handWriteView?.clear()
+                }
     }
 }

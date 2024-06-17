@@ -47,4 +47,10 @@ dependencies {
     compile 'com.android.support:cardview-v7:28.0.0'
     //onnx_runtime
     implementation 'com.microsoft.onnxruntime:onnxruntime-android:latest.release'
+
+    implementation 'com.alibaba:fastjson:1.1.72.android'
+
+    implementation 'com.google.code.gson:gson:2.8.9' // 请使用最新版本
+
+
 }
