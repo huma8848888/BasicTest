@@ -59,10 +59,10 @@
         app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintBottom_toTopOf="@id/CustomSignatureView_MainActivity_Canvas"/>
 
-    <com.example.basictest.CustomSignatureView
+    <FrameLayout
         android:id="@+id/CustomSignatureView_MainActivity_Canvas"
-        android:layout_width="448dp"
-        android:layout_height="448dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toTopOf="@id/recognize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
