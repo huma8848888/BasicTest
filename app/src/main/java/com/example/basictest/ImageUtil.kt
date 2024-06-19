@@ -20,9 +20,9 @@ import android.graphics.*
 import java.nio.FloatBuffer
 
 const val DIM_BATCH_SIZE = 1;
-const val DIM_PIXEL_SIZE = 3;
-const val IMAGE_SIZE_X = 224;
-const val IMAGE_SIZE_Y = 224;
+const val DIM_PIXEL_SIZE = 1;
+const val IMAGE_SIZE_X = 32;
+const val IMAGE_SIZE_Y = 32;
 
 fun preProcess(bitmap: Bitmap): FloatBuffer {
     val imgData = FloatBuffer.allocate(
@@ -48,8 +48,8 @@ fun preProcess(bitmap: Bitmap): FloatBuffer {
 //            imgData.put(idx + stride, (((pixelValue shr 8 and 0xFF) / 255f)))
 //            imgData.put(idx + stride * 2, (((pixelValue and 0xFF) / 255f)))
             imgData.put(idx, (data))
-            imgData.put(idx + stride, ((data)))
-            imgData.put(idx + stride * 2, ((data)))
+//            imgData.put(idx + stride, ((data)))
+//            imgData.put(idx + stride * 2, ((data)))
         }
     }
 

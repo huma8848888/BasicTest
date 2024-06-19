@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     // Read ort model into a ByteArray, run in background
     fun readModel(): ByteArray  {
-        val modelID = R.raw.da_recognize
+        val modelID = R.raw.cnocr_v2_3_scene_densenet_lite_136_gru_epoch_004_ft_model
         return resources.openRawResource(modelID).readBytes()
     }
 
@@ -74,18 +74,9 @@ class MainActivity : AppCompatActivity() {
                         return@Action1
                     }
                     val ortSession = ortEnv?.createSession(readModel())
-                    val analyzer = ORTAnalyzer(ortSession, object :(Result)-> Unit{
-                        override fun invoke(p1: Result) {
-
-                        }
-                    })
-                    analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){ result, timecost ->
-                        binding!!.result.text = when(result){
-                            0 -> "大 yes"
-                            1 -> "大 no"
-                            else -> "Unknown"
-                        }
-                        binding!!.timecost.text = "inference timecost:${timecost}ms"
+                    val analyzer = ORTAnalyzer(this, ortSession)
+                    analyzer.analyze(binding!!.CustomSignatureViewMainActivityCanvas.currBitmap){ timecost, probability, result ->
+                        binding!!.timecost.text = "inference result:${result}, probability:${probability}, timecost:${timecost}ms"
                     }
                 })
         /**
