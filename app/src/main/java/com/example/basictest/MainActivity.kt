@@ -61,16 +61,16 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { aBoolean ->
                     if (aBoolean) {
                         //添加手写区域
-                        val baseWidth = 30f
+                        val baseWidth = 20f
                         var pen: InkPen = InkPen(baseWidth)
                         handWriteView = HandWriteView(this)
                         handWriteView?.pen = pen
 
                         handWriteView?.setBackgroundColor(Color.WHITE)
 
-                        val layoutParams = FrameLayout.LayoutParams(600, 600)
-                        layoutParams.width = 600
-                        layoutParams.height = 600
+                        val layoutParams = FrameLayout.LayoutParams(534, 503)
+                        layoutParams.width = 534
+                        layoutParams.height = 503
                         layoutParams.leftMargin = 0
                         layoutParams.topMargin = 0
 
