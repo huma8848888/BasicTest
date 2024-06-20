@@ -6,46 +6,32 @@
     android:layout_height="match_parent"
     android:background="#B8DDDA">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/tab_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:background="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/content_wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:background="#ffffff"
+            android:orientation="vertical" />
+    </ScrollView>
 
-            <TextView
-                android:id="@+id/TextView_MainActivity_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="清除签名" />
-
-            <TextView
-                android:id="@+id/TextView_MainActivity_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginLeft="16dp"
-                android:text="居中签名" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40dp"
         android:textColor="#F44336"
-        app:layout_constraintTop_toBottomOf="@id/tab_bar"
-        app:layout_constraintEnd_toStartOf="@id/icon"
-        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/scrollView"
         android:text="当前需要绘制:"/>
     <TextView
         android:id="@+id/icon"
@@ -54,10 +40,9 @@
         android:textSize="40dp"
         android:textColor="#F44336"
         app:layout_constraintStart_toEndOf="@id/notification"
-        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
         app:layout_constraintTop_toTopOf="@id/notification"
         app:layout_constraintBottom_toBottomOf="@id/notification"
-        android:text="A"/>
+        />
     <TextView
         android:id="@+id/item_count"
         android:layout_width="wrap_content"
@@ -67,15 +52,15 @@
         app:layout_constraintTop_toBottomOf="@id/notification"
         app:layout_constraintStart_toStartOf="@id/notification"
         app:layout_constraintEnd_toEndOf="@id/icon"
-        android:text="每一项需要绘制:"/>
+        android:text="每一项需要绘制1000次"/>
 
-    <com.example.basictest.CustomSignatureView
-        android:id="@+id/CustomSignatureView_MainActivity_Canvas"
-        android:layout_width="448dp"
-        android:layout_height="448dp"
+    <com.huitongzhiyuan.testapplication.pen.HandWriteView
+        android:id="@+id/canvas"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/notification"
+        app:layout_constraintStart_toStartOf="@id/notification"
         app:layout_constraintTop_toBottomOf="@id/item_count" />
     <Button
         android:id="@+id/save"
@@ -83,101 +68,15 @@
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:text="保存笔迹"
-        app:layout_constraintStart_toStartOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintEnd_toEndOf="@id/CustomSignatureView_MainActivity_Canvas"
-        app:layout_constraintTop_toBottomOf="@id/CustomSignatureView_MainActivity_Canvas"/>
-    <TextView
-        android:id="@+id/a_desc"
+        app:layout_constraintStart_toStartOf="@id/canvas"
+        app:layout_constraintEnd_toEndOf="@id/canvas"
+        app:layout_constraintTop_toBottomOf="@id/canvas"/>
+    <Button
+        android:id="@+id/clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前已绘制A数"
+        android:text="清除签名"
         app:layout_constraintStart_toStartOf="@id/save"
-        app:layout_constraintTop_toBottomOf="@id/save" />
-
-    <TextView
-        android:id="@+id/a_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        app:layout_constraintTop_toTopOf="@id/a_desc"
-        app:layout_constraintBottom_toBottomOf="@id/a_desc"
-        app:layout_constraintStart_toEndOf="@id/a_desc"
-        tools:text="3"
-        android:layout_marginLeft="30dp" />
-
-    <TextView
-        android:id="@+id/b_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="当前已绘制B数"
-        app:layout_constraintStart_toStartOf="@id/save"
-        app:layout_constraintTop_toBottomOf="@id/a_desc" />
-
-    <TextView
-        android:id="@+id/b_nums"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        app:layout_constraintTop_toTopOf="@id/b_desc"
-        app:layout_constraintBottom_toBottomOf="@id/b_desc"
-        app:layout_constraintStart_toEndOf="@id/b_desc"
-        tools:text="5" />
-
-    <TextView
-        android:id="@+id/c_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="当前已绘制C数"
-        app:layout_constraintStart_toStartOf="@id/save"
-        app:layout_constraintTop_toBottomOf="@id/b_desc" />
-
-    <TextView
-        android:id="@+id/c_nums"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        app:layout_constraintTop_toTopOf="@id/c_desc"
-        app:layout_constraintBottom_toBottomOf="@id/c_desc"
-        app:layout_constraintStart_toEndOf="@id/c_desc"
-        tools:text="5" />
-
-    <TextView
-        android:id="@+id/d_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="当前已绘制D数"
-        app:layout_constraintStart_toStartOf="@id/save"
-        app:layout_constraintTop_toBottomOf="@id/c_desc" />
-
-    <TextView
-        android:id="@+id/d_nums"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        app:layout_constraintTop_toTopOf="@id/d_desc"
-        app:layout_constraintBottom_toBottomOf="@id/d_desc"
-        app:layout_constraintStart_toEndOf="@id/d_desc"
-        tools:text="5" />
-    <TextView
-        android:id="@+id/notification2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/d_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#F44336"
-        android:text="根据顶部提示，在画布中央绘制，四周留白，绘制结束点击保存笔迹按钮\n中途需要清除画布，点击左上角清除签名按钮" />
-
-    <TextView
-        android:id="@+id/notification3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/notification2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#F44336"
-        android:textSize="30dp"
-        android:text="请确保数据的准确性！！！" />
-
+        app:layout_constraintEnd_toEndOf="@id/save"
+        app:layout_constraintTop_toBottomOf="@id/save"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

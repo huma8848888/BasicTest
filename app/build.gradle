@@ -48,6 +48,9 @@ dependencies {
 
     // For developers using the Android Support Library
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
+    implementation 'com.alibaba:fastjson:1.1.72.android'
+    implementation 'com.google.code.gson:gson:2.8.9' // 请使用最新版本
+
 
 
 }
