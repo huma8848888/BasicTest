@@ -11,44 +11,6 @@ import java.io.IOException
 
 object HandWriteBitmap {
 
-
-    fun saveBitmapToDisk(bitmap: Bitmap?, fileName: String): Boolean {
-        if (bitmap == null) {
-            return false
-        }
-
-        // 获取外部存储目录
-        val storageDir = Environment.getExternalStorageDirectory().toString()
-
-        // 创建文件对象，指定文件路径和文件名
-        val file = File(storageDir, fileName)
-
-        var fos: FileOutputStream? = null
-        try {
-            // 创建文件输出流对象
-            fos = FileOutputStream(file)
-
-            // 将Bitmap压缩并写入输出流中，格式为PNG，质量为100%
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-
-            // 确保所有数据都写入输出流中
-            fos.flush()
-
-            return true
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return false
-        } finally {
-            try {
-                // 关闭输出流
-                fos?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-
     fun cropTransparentArea(bitmap: Bitmap?,targetWidth:Int,ImagePadding:Int): Bitmap? {
         if (bitmap == null) return null
 
@@ -101,9 +63,6 @@ object HandWriteBitmap {
         // 如果没有找到有效区域，则返回原始Bitmap
         return bitmap
     }
-
-
-
 
     fun cropTransparentArea2(bitmap: Bitmap?, targetWidth: Int, targetHeight: Int, padding: Int): Bitmap? {
         val new_bitmap = cropTransparentArea(bitmap)

@@ -245,7 +245,7 @@ public class CustomSignatureView extends View {
     return false;
   }
 
-  public void savePointList(String inputMode){
+  public void savePointList(){
     JSONObject jsonObject = new JSONObject();
     JSONArray arr = new JSONArray();
     for (List<PointF> item : cachedPointList){
@@ -258,7 +258,7 @@ public class CustomSignatureView extends View {
     } catch (Exception e){
       e.printStackTrace();
     }
-    file = new File(MainActivity.PARENT_PATH + File.separator + MainActivity.root_folder + File.separator + "points" + File.separator + inputMode, "chars_traces.txt");
+    file = new File(MainActivity.PARENT_PATH + File.separator + MainActivity.root_folder + File.separator + "points" + File.separator, "chars_traces.txt");
     try {
       if(!new File(file.getParent()).exists()){
         new File(file.getParent()).mkdirs();

@@ -3,7 +3,7 @@ package com.example.basictest
 import android.content.Context
 import android.content.SharedPreferences
 
-class StorageUtils {
+class SPStorageUtils {
     companion object{
         lateinit var sharedPreferences: SharedPreferences
         fun init(context: Context){

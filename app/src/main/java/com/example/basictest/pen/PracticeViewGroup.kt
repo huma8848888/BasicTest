@@ -25,7 +25,6 @@ class PracticeViewGroup(context: Context) : FrameLayout(context) {
 
     init {
         handWriteView.pen = pen
-        handWriteView.eraserPen2 = eraserPen2
     }
 
     fun addHandWriteView(x: Int, y: Int, width: Int, height: Int) {

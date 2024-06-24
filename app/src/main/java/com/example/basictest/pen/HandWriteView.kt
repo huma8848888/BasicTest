@@ -9,12 +9,15 @@ import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.example.basictest.Pointer
 import com.example.basictest.pen.obj.wobj.MovePathWriteObj
-import com.example.basictest.pen.pt.EraserPenByLine
 import com.example.basictest.pen.pt.InkPen
 import com.example.basictest.pen.pt.WritePage
-import com.huitongzhiyuan.testapplication.pen.listener.IOnRefreshListener
-import java.util.jar.Attributes
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 
 class HandWriteView : View {
@@ -25,26 +28,7 @@ class HandWriteView : View {
     var offscreenBitmap: Bitmap? = null
     private var offscreenCanvas: Canvas? = null
     private var drawFlag = false
-
-//    private var testPaint = Paint().apply {
-//        style = Paint.Style.STROKE
-//        color = Color.RED
-//        strokeWidth = 3f
-//        isAntiAlias = true
-//        strokeCap = Paint.Cap.ROUND
-//        strokeJoin = Paint.Join.ROUND
-//    }
-
     var pen: InkPen? = null
-    var eraserPen2: EraserPenByLine? = null
-        set(value) {
-            field = value
-            field?.setOnRefreshListener(object : IOnRefreshListener {
-                override fun onRefresh() {
-                    recovery(eraserPen2!!.currentWritePage)
-                }
-            })
-        }
 
     private var offscreenPaint: Paint = Paint().apply {
         isAntiAlias = true
@@ -64,40 +48,51 @@ class HandWriteView : View {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event?.let {
             val toolType: Int = event.getToolType(0)
-            val buttonState = event.buttonState
             //是否是手写笔
             val isStylus = MotionEvent.TOOL_TYPE_STYLUS == toolType
             if (!isStylus) {
                 return false
             }
-            //todo 经过测试，发现手写笔的buttonState 不准确，在 action_down 的时候buttonState是错误的，导致橡皮擦不准确。
-            if (MotionEvent.BUTTON_STYLUS_PRIMARY == buttonState) {
-                //按住手写笔侧面按钮，橡皮擦
-                dealEraserTouchEvent(it)
-            } else {
-                //手写笔书写
-                dealTouchEvent(it)
-            }
+            recordDrawPath(it)
+            //手写笔书写
+            dealTouchEvent(it)
         }
         return true
     }
+    private var cachedPointItem: ArrayList<Pointer> = ArrayList()
+    private var cachedPointList: ArrayList<ArrayList<Pointer>> = ArrayList()
+    private var mPressingX = 0f
+    private var mPressingY = 0f
+    private fun recordDrawPath(event: MotionEvent){
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                cachedPointItem = ArrayList<Pointer>()
+                mPressingX = event.x
+                mPressingY = event.y
+                cachedPointItem.add(Pointer(mPressingX, mPressingY))
+            }
 
-    private fun dealEraserTouchEvent(event: MotionEvent) {
-        //手写笔侧面橡皮擦
-        val x = event.x
-        val y = event.y
-        var fixPressure = event.pressure
-        if (fixPressure <= 0) {
-            fixPressure = 0.001f
+            MotionEvent.ACTION_MOVE -> {
+                val mMoveX = event.x
+                val mMoveY = event.y
+                mPressingX = mMoveX
+                mPressingY = mMoveY
+                cachedPointItem.add(Pointer(mPressingX, mPressingY))
+            }
+
+            MotionEvent.ACTION_UP ->         // mSignatureCanvas.drawPath(mPath, mTextPaint);
+                cachedPointList.add(cachedPointItem)
+
+            else -> {}
         }
-        eraserPen2?.onDrawEvent(x, y, fixPressure, event.action)
-//        if (event.action == MotionEvent.ACTION_MOVE) {
-//            drawFlag = true
-//        }
-//        invalidate()
     }
 
-     fun dealTouchEvent(event: MotionEvent) {
+    fun isDrawValidPath(): Boolean {
+        return cachedPointList.isNotEmpty()
+    }
+
+
+    private fun dealTouchEvent(event: MotionEvent) {
         val action = event.action
         pen?.let {
             val x = event.x
@@ -130,19 +125,54 @@ class HandWriteView : View {
                     canvas.drawPath(path, it.paint)
                 }
             }
-//            eraserPen2?.let {
-//                val path = it.path
-//                if (path != null) {
-//                    canvas.drawPath(path, testPaint)
-//                }
-//            }
         }
     }
 
     fun clear() {
         post {
             offscreenCanvas?.drawColor(0, PorterDuff.Mode.CLEAR)
+
+            cachedPointList.clear()
+            cachedPointItem.clear()
             invalidate()
+        }
+    }
+
+    fun savePointList(folder_path: String, filename: String) {
+        val extension = ".txt"
+        val fullFilename = filename + extension
+        val jsonObject = JSONObject()
+        val arr = JSONArray()
+        for (item in cachedPointList) {
+            arr.put(item)
+        }
+        val file: File
+        try {
+            jsonObject.putOpt("points", arr)
+            jsonObject.putOpt("canvas_size", "${width}*${height}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        file = File(folder_path, fullFilename)
+        try {
+            if (!File(file.parent).exists()) {
+                File(file.parent).mkdirs()
+            }
+            if (!file.exists()) {
+                file.createNewFile()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        // 将 JSON 对象写入文件
+        try {
+            FileWriter(file, true).use { fileWriter ->
+                fileWriter.append(jsonObject.toString())
+                fileWriter.append("\n")
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
