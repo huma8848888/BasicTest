@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.example.basictest.databinding.ActivityMainBinding
 import com.example.basictest.databinding.ListItemViewBinding
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 this.currSelectedItemView = itemViewBinding
                 this.currSamplingItem = sampleBean
                 binding?.icon?.text = sampleBean.text
+                if (sampleBean.pic == 0){
+                    binding?.specialCase?.visibility = ViewGroup.GONE
+                } else {
+                    binding?.specialCase?.visibility = ViewGroup.VISIBLE
+                    binding?.specialCase?.setImageDrawable(ContextCompat.getDrawable(this, sampleBean.pic))
+                }
             }
             binding?.contentWrapper?.addView(itemViewBinding.root)
         }

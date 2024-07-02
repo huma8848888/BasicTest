@@ -33,6 +33,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/scrollView"
         android:text="当前需要绘制:"/>
+    <ImageView
+        android:id="@+id/special_case"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="@id/canvas"
+        app:layout_constraintEnd_toEndOf="@id/canvas"
+        app:layout_constraintBottom_toTopOf="@id/canvas"/>
     <TextView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
