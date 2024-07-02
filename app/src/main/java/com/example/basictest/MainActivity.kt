@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             }
             sampleBean.count = currDoneCount
             itemViewBinding.text.text = sampleBean.text
+            itemViewBinding.root.setBackgroundColor(sampleBean.color)
             itemViewBinding.timeCount.text = currDoneCount.toString()
             itemViewBinding.target.text = sampleBean.target.toString()
             itemViewBinding.root.setOnClickListener {

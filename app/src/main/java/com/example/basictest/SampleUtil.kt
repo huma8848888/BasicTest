@@ -1,17 +1,21 @@
 package com.example.basictest
+
+import android.graphics.Color
+
 class SampleUtil {
     companion object{
         val sampleList = listOf<SampleBean>(
             SampleBean("大", 8000, isPositiveSample = true),
+            SampleBean("ナ", 8000, color = Color.RED),
             SampleBean("思", 8000),
             SampleBean("六", 5000),
-            SampleBean("犬", 5000),
-            SampleBean("太", 5000),
+            SampleBean("犬", 5000, color = Color.RED),
+            SampleBean("太", 5000, color = Color.RED),
             SampleBean("人", 5000),
             SampleBean("丈", 5000),
             SampleBean("A", 5000),
-            SampleBean("夫", 5000),
-            SampleBean("夭", 5000),
+            SampleBean("夫", 5000, color = Color.RED),
+            SampleBean("夭", 5000, color = Color.RED),
             SampleBean("米", 3000),
             SampleBean("的", 3000),
             SampleBean("是", 3000),
