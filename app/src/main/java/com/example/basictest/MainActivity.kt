@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -63,6 +64,13 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 } else {
                     binding?.specialCase?.visibility = ViewGroup.VISIBLE
                     binding?.specialCase?.setImageDrawable(ContextCompat.getDrawable(this, sampleBean.pic))
+                }
+                if (TextUtils.isEmpty(sampleBean.notice)){
+                    binding?.alert?.visibility = ViewGroup.GONE
+                } else {
+                    binding?.alert?.visibility = ViewGroup.VISIBLE
+                    binding?.alert?.text = sampleBean.notice
+
                 }
             }
             binding?.contentWrapper?.addView(itemViewBinding.root)

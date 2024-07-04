@@ -33,6 +33,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/scrollView"
         android:text="当前需要绘制:"/>
+    <TextView
+        android:id="@+id/alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:textColor="#F4D436"
+        app:layout_constraintTop_toBottomOf="@id/notification"
+        app:layout_constraintEnd_toEndOf="@id/notification"
+        app:layout_constraintStart_toStartOf="@id/notification" />
     <ImageView
         android:id="@+id/special_case"
         android:layout_width="40dp"
